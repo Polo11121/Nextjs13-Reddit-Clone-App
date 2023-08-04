@@ -2,10 +2,9 @@
 
 import { HTMLAttributes, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/Button";
-import { set } from "date-fns";
+import { Button } from "@/components/ui/Button";
 import { signIn } from "next-auth/react";
-import { Icons } from "./Icons";
+import { Icons } from "@/components/ui/Icons";
 import { useToast } from "@/hooks/useToast";
 
 interface UserAuthFormProps extends HTMLAttributes<HTMLDivElement> {}
@@ -30,6 +29,7 @@ export const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
       setIsLoading(false);
     }
   };
+
   return (
     <div {...props} className={cn("flex justify-center", className)}>
       <Button

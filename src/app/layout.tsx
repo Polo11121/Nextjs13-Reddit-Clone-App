@@ -12,24 +12,25 @@ export const metadata = {
 
 const inter = Inter({ subsets: ["latin"] });
 
-const RootLayout = ({ children }: { children: ReactNode }) => {
-  return (
-    <html
-      lang="en"
-      className={cn(
-        inter.className,
-        "bg-white text-slate-900 antialiased light"
-      )}
-    >
-      <body className="min-h-screen pt-12 bg-slate-50 antialiased">
-        <Navbar />
-        <div className="container max-w-7xl mx-auto h-fill pt-12">
-          {children}
-        </div>
-        <Toaster />
-      </body>
-    </html>
-  );
-};
+const RootLayout = ({
+  children,
+  authModal,
+}: {
+  children: ReactNode;
+  authModal: ReactNode;
+}) => (
+  <html
+    lang="en"
+    className={cn(inter.className, "bg-white text-slate-900 antialiased light")}
+  >
+    <body className="min-h-screen pt-12 bg-slate-50 antialiased">
+      {/* @ts-expect-error server component */}
+      <Navbar />
+      {authModal}
+      <div className="container max-w-7xl mx-auto h-fill pt-12">{children}</div>
+      <Toaster />
+    </body>
+  </html>
+);
 
 export default RootLayout;

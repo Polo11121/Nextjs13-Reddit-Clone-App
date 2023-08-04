@@ -1,5 +1,6 @@
-import { Icons } from "@/components/Icons";
-import { buttonVariants } from "./ui/Button";
+import { Icons } from "@/components/ui/Icons";
+import { UserAccountNav } from "@/components/UserAccountNav";
+import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import Link from "next/link";
 
@@ -15,8 +16,8 @@ export const Navbar = async () => {
             Breadit
           </p>
         </Link>
-        {session ? (
-          <p>You are logged in</p>
+        {session?.user ? (
+          <UserAccountNav user={session.user} />
         ) : (
           <Link href="/sign-in" className={buttonVariants()}>
             Sign In
