@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Providers } from "@/components/Providers";
 import { Toaster } from "@/components/ui/Toaster";
 import { Navbar } from "@/components/Navbar";
 import { Inter } from "next/font/google";
@@ -24,11 +25,15 @@ const RootLayout = ({
     className={cn(inter.className, "bg-white text-slate-900 antialiased light")}
   >
     <body className="min-h-screen pt-12 bg-slate-50 antialiased">
-      {/* @ts-expect-error server component */}
-      <Navbar />
-      {authModal}
-      <div className="container max-w-7xl mx-auto h-fill pt-12">{children}</div>
-      <Toaster />
+      <Providers>
+        {/* @ts-expect-error server component */}
+        <Navbar />
+        {authModal}
+        <div className="container max-w-7xl mx-auto h-fill pt-12">
+          {children}
+        </div>
+        <Toaster />
+      </Providers>
     </body>
   </html>
 );
