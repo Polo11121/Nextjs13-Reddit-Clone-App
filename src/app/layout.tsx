@@ -6,6 +6,11 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 
+interface RootLayoutProps {
+  children: ReactNode;
+  authModal: ReactNode;
+}
+
 export const metadata = {
   title: "Breadit",
   description: "A Reddit clone built with Next.js and TypeScript.",
@@ -13,13 +18,7 @@ export const metadata = {
 
 const inter = Inter({ subsets: ["latin"] });
 
-const RootLayout = ({
-  children,
-  authModal,
-}: {
-  children: ReactNode;
-  authModal: ReactNode;
-}) => (
+const RootLayout = ({ children, authModal }: RootLayoutProps) => (
   <html
     lang="en"
     className={cn(inter.className, "bg-white text-slate-900 antialiased light")}
