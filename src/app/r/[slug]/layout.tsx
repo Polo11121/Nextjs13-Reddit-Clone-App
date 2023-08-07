@@ -2,8 +2,10 @@ import { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { buttonVariants } from "@/components/ui/Button";
 import { SubscribeLeaveToggle } from "@/components/SubscribeLeaveToggle";
 import { format } from "date-fns";
+import Link from "next/link";
 
 interface SubredditLayoutProps {
   children: ReactNode;
@@ -91,6 +93,15 @@ const SubredditLayout = async ({
                   isSubscribed={Boolean(subscription)}
                 />
               )}
+              <Link
+                className={buttonVariants({
+                  variant: "outline",
+                  className: "w-full mb-6",
+                })}
+                href={`r/${slug}/submit`}
+              >
+                Create Post
+              </Link>
             </dl>
           </div>
         </div>
