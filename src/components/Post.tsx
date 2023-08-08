@@ -51,7 +51,7 @@ export const Post = ({ post, currentVote, votesAmount }: PostProps) => {
             <span>Posted by u/{authorName}</span>{" "}
             {formatTimeToNow(new Date(createdAt))}
           </div>
-          <a href={`/r/${subredditName}/${id}`}>
+          <a href={`/r/${subredditName}/post/${id}`}>
             <h1 className="text-lg font-semibold py-2 leading-6 text-gray-900">
               {title}
             </h1>
