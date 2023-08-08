@@ -1,6 +1,6 @@
 import { useCustomToast } from "@/hooks/useCustomToast";
 import { toast } from "@/hooks/useToast";
-import { CreateSubredditPayload } from "@/lib/validators/subreddit";
+import { CreateSubredditRequest } from "@/lib/validators/subreddit";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
@@ -10,7 +10,7 @@ export const useCreateSubreddit = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: async (payload: CreateSubredditPayload) => {
+    mutationFn: async (payload: CreateSubredditRequest) => {
       const { data } = await axios.post("/api/subreddit", payload);
 
       return data as string;

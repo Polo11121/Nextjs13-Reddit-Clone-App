@@ -1,7 +1,7 @@
 import { startTransition } from "react";
 import { useCustomToast } from "@/hooks/useCustomToast";
 import { toast } from "@/hooks/useToast";
-import { SubscribeToSubredditPayload } from "@/lib/validators/subreddit";
+import { SubscribeToSubredditRequest } from "@/lib/validators/subreddit";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
@@ -11,7 +11,7 @@ export const useUnsubscribeFromSubreddit = (subredditName: string) => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: async (payload: SubscribeToSubredditPayload) => {
+    mutationFn: async (payload: SubscribeToSubredditRequest) => {
       const { data } = await axios.post("/api/subreddit/unsubscribe", payload);
 
       return data as string;
