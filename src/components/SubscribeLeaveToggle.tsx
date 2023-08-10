@@ -1,7 +1,6 @@
 "use client";
 
-import { useSubscribeToSubreddit } from "@/actions/useSubscribeToSubreddit";
-import { useUnsubscribeFromSubreddit } from "@/actions/useUnsubscribeFromSubreddit";
+import { useSubscribe } from "@/actions/useSubscribe";
 import { Button } from "@/components/ui/Button";
 
 interface SubscribeLeaveToggleProps {
@@ -15,29 +14,20 @@ export const SubscribeLeaveToggle = ({
   subredditName,
   isSubscribed,
 }: SubscribeLeaveToggleProps) => {
-  const { mutate: subscribe, isLoading: isSubscribeLoading } =
-    useSubscribeToSubreddit(subredditName);
-  const { mutate: unsubscribe, isLoading: isUnsubscribeLoading } =
-    useUnsubscribeFromSubreddit(subredditName);
+  const { mutate: toggleSubscribe, isLoading } = useSubscribe({
+    subredditName,
+    action: isSubscribed ? "unsubscribe" : "subscribe",
+  });
 
-  const subscribeHandler = () => subscribe({ subredditId });
-  const unsubscribeHandler = () => unsubscribe({ subredditId });
+  const toggleHandler = () => toggleSubscribe({ subredditId });
 
-  return isSubscribed ? (
+  return (
     <Button
-      isLoading={isUnsubscribeLoading}
-      onClick={unsubscribeHandler}
+      isLoading={isLoading}
+      onClick={toggleHandler}
       className="w-full mt-1 mb-4"
     >
-      Leave community
-    </Button>
-  ) : (
-    <Button
-      isLoading={isSubscribeLoading}
-      onClick={subscribeHandler}
-      className="w-full mt-1 mb-4"
-    >
-      Join to post
+      {isSubscribed ? "Leave community" : "Join to post"}
     </Button>
   );
 };

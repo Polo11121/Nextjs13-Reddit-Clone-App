@@ -2,12 +2,14 @@ import { Suspense } from "react";
 import { db } from "@/lib/db";
 import { redis } from "@/lib/redis";
 import { CachedPost } from "@/types/redis";
-import { PostVoteShell } from "@/components/PostVote/PostVoteShell";
+import { PostVoteShell } from "@/components/PostVoteShell";
 import { Post, User, Vote } from "@prisma/client";
 import { notFound } from "next/navigation";
-import { PostVoteServer } from "@/components/PostVote/PostVoteServer";
+import { PostVoteServer } from "@/components/PostVoteServer";
 import { formatTimeToNow } from "@/lib/utils";
 import { EditorOutput } from "@/components/EditorOutput";
+import { CommentsSection } from "@/components/CommentsSection";
+import { Loader2 } from "lucide-react";
 
 interface PostPageProps {
   params: {
@@ -59,7 +61,6 @@ const PostPage = async ({ params: { postId } }: PostPageProps) => {
             getData={getData}
           />
         </Suspense>
-
         <div className="sm:w-0 w-full flex-1 bg-white p-4 rounded-sm">
           <p className="max-h-40 mt-1 truncate text-xs text-gray-500">
             Posted by u/{post?.author.name ?? cachedPost.authorUsername}{" "}
@@ -69,6 +70,14 @@ const PostPage = async ({ params: { postId } }: PostPageProps) => {
             {post?.title ?? cachedPost.title}
           </h1>
           <EditorOutput content={post?.content ?? cachedPost.content} />
+          <Suspense
+            fallback={
+              <Loader2 className="h-5 w-5 animate-spin text-zinc-500" />
+            }
+          >
+            {/* @ts-expect-error server component */}
+            <CommentsSection postId={post?.id ?? cachedPost.id} />
+          </Suspense>
         </div>
       </div>
     </div>

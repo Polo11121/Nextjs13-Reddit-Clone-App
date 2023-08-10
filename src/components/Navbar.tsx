@@ -1,5 +1,6 @@
 import { Icons } from "@/components/ui/Icons";
 import { UserAccountNav } from "@/components/UserAccountNav";
+import { SearchBar } from "@/components/SearchBar";
 import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import Link from "next/link";
@@ -16,6 +17,7 @@ export const Navbar = async () => {
             Breadit
           </p>
         </Link>
+        <SearchBar />
         {session?.user ? (
           <UserAccountNav user={session.user} />
         ) : (

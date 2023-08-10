@@ -6,13 +6,18 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
 
-export const useUnsubscribeFromSubreddit = (subredditName: string) => {
+interface useSubscribeProps {
+  subredditName: string;
+  action: "subscribe" | "unsubscribe";
+}
+
+export const useSubscribe = ({ subredditName, action }: useSubscribeProps) => {
   const { loginToast } = useCustomToast();
   const router = useRouter();
 
   return useMutation({
     mutationFn: async (payload: SubscribeToSubredditRequest) => {
-      const { data } = await axios.post("/api/subreddit/unsubscribe", payload);
+      const { data } = await axios.post(`/api/subreddit/${action}`, payload);
 
       return data as string;
     },
@@ -21,13 +26,13 @@ export const useUnsubscribeFromSubreddit = (subredditName: string) => {
         if (error.response?.status === 401) {
           return loginToast();
         }
-
-        return toast({
-          title: "An error occurred",
-          description: "Please try again later.",
-          variant: "destructive",
-        });
       }
+
+      return toast({
+        title: "An error occurred",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
     },
     onSuccess: () => {
       startTransition(() => {
@@ -35,8 +40,8 @@ export const useUnsubscribeFromSubreddit = (subredditName: string) => {
       });
 
       return toast({
-        title: "Unsubscribed",
-        description: `You are now unsubscribed from r/${subredditName}.`,
+        title: action.charAt(0).toUpperCase() + action.slice(1),
+        description: `You are now ${action} from r/${subredditName}.`,
         variant: "default",
       });
     },

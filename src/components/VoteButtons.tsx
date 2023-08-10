@@ -1,38 +1,39 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useCustomToast } from "@/hooks/useCustomToast";
 import { VoteType } from "@prisma/client";
 import { usePrevious } from "@mantine/hooks";
 import { Button } from "@/components/ui/Button";
+import { useVote } from "@/actions/useVote";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useVotePost } from "@/actions/useVotePost";
 
-interface PostVoteClientProps {
-  postId: string;
+interface VoteButtonsProps {
+  type: "POST" | "COMMENT";
+  id: string;
   initialVoteAmount: number;
   initialVote?: VoteType | null;
 }
 
-export const PostVoteClient = ({
-  postId,
+export const VoteButtons = ({
+  type,
+  id,
   initialVoteAmount,
   initialVote,
-}: PostVoteClientProps) => {
+}: VoteButtonsProps) => {
   const [votesAmount, setVotesAmount] = useState(initialVoteAmount);
   const [currentVote, setCurrentVote] = useState(initialVote);
   const prevVote = usePrevious(currentVote);
 
   const setToPrevVote = () => setCurrentVote(prevVote);
-  const { mutate: vote } = useVotePost({
-    postId,
+  const { mutate: vote } = useVote({
+    type,
+    id,
     setVotesAmount,
     setCurrentVote,
     currentVote,
     setToPrevVote,
   });
-  const { loginToast } = useCustomToast();
 
   const voteUpHandler = () => vote("UP");
   const voteDownHandler = () => vote("DOWN");
@@ -42,7 +43,7 @@ export const PostVoteClient = ({
   }, [initialVote]);
 
   return (
-    <div className="flex sm:flex-col gap-4 sm:gap-0 pr-6 sm:w-20 pb-4 sm:pb-0">
+    <>
       <Button
         onClick={voteUpHandler}
         size="sm"
@@ -70,6 +71,6 @@ export const PostVoteClient = ({
           })}
         />
       </Button>
-    </div>
+    </>
   );
 };

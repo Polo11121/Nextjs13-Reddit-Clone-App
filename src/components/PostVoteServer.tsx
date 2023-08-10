@@ -1,7 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import { Post, Vote, VoteType } from "@prisma/client";
 import { notFound } from "next/navigation";
-import { PostVoteClient } from "@/components/PostVote/PostVoteClient";
+import { VoteButtons } from "@/components/VoteButtons";
 
 interface PostVoteServerProps {
   postId: string;
@@ -41,10 +41,13 @@ export const PostVoteServer = async ({
   }
 
   return (
-    <PostVoteClient
-      postId={postId}
-      initialVoteAmount={_votesAmount}
-      initialVote={_currentVote}
-    />
+    <div className="flex sm:flex-col gap-4 sm:gap-0 pr-6 sm:w-20 pb-4 sm:pb-0">
+      <VoteButtons
+        id={postId}
+        initialVoteAmount={_votesAmount}
+        initialVote={_currentVote}
+        type="POST"
+      />
+    </div>
   );
 };

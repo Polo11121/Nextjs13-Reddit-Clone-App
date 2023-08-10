@@ -50,7 +50,7 @@ const CreateCommunityPage = () => {
           </Button>
           <Button
             isLoading={isLoading}
-            disabled={!input}
+            disabled={!input || isLoading}
             onClick={submitHandler}
           >
             Create community

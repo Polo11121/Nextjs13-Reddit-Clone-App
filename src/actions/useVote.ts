@@ -1,36 +1,49 @@
 import { Dispatch, SetStateAction } from "react";
-import { PostVoteRequest } from "@/lib/validators/vote";
+import { CommentVoteRequest, PostVoteRequest } from "@/lib/validators/vote";
 import { VoteType } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { useCustomToast } from "@/hooks/useCustomToast";
 import { toast } from "@/hooks/useToast";
 import axios, { AxiosError } from "axios";
 
-interface useVotePostProps {
-  postId: string;
+interface useVoteProps {
+  type: "POST" | "COMMENT";
+  id: string;
   setVotesAmount: Dispatch<SetStateAction<number>>;
   setCurrentVote: Dispatch<SetStateAction<"UP" | "DOWN" | null | undefined>>;
   setToPrevVote: () => void;
   currentVote?: VoteType | null;
 }
 
-export const useVotePost = ({
-  postId,
+export const useVote = ({
+  id,
+  type,
   setVotesAmount,
   currentVote,
   setCurrentVote,
   setToPrevVote,
-}: useVotePostProps) => {
+}: useVoteProps) => {
   const { loginToast } = useCustomToast();
 
   return useMutation({
-    mutationFn: async (type: VoteType) => {
-      const payload: PostVoteRequest = {
-        voteType: type,
-        postId,
-      };
+    mutationFn: async (voteType: VoteType) => {
+      if (type === "COMMENT") {
+        const payload: CommentVoteRequest = {
+          voteType,
+          commentId: id,
+        };
 
-      await axios.patch("/api/subreddit/post/vote", payload);
+        await axios.patch("/api/subreddit/post/comment/vote", payload);
+      }
+
+      if (type === "POST") {
+        const payload: PostVoteRequest = {
+          voteType,
+          postId: id,
+        };
+
+        await axios.patch("/api/subreddit/post/vote", payload);
+      }
     },
     onMutate: (voteType) => {
       if (currentVote === voteType) {

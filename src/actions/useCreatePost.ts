@@ -17,7 +17,7 @@ export const useCreatePost = () => {
     onError: () =>
       toast({
         title: "Something went wrong",
-        description: "Please try again later.",
+        description: "Check if you subscribe to this post.",
         variant: "destructive",
       }),
     onSuccess: () => {

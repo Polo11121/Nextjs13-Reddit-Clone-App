@@ -3,8 +3,8 @@ import { formatTimeToNow } from "@/lib/utils";
 import { MessageSquare } from "lucide-react";
 import { ExtendedPost } from "@/types/db";
 import { EditorOutput } from "@/components/EditorOutput";
-import { PostVoteClient } from "@/components/PostVote/PostVoteClient";
 import { Vote } from "@prisma/client";
+import { VoteButtons } from "@/components/VoteButtons";
 
 type PartialVote = Pick<Vote, "type">;
 
@@ -24,17 +24,20 @@ export const Post = ({ post, currentVote, votesAmount }: PostProps) => {
     content,
     comments,
     subreddit: { name: subredditName },
-    author: { name: authorName },
+    author: { username: authorName },
   } = post;
 
   return (
     <div className="rounded-md bg-white shadow">
       <div className="px-6 py-4 flex justify-between">
-        <PostVoteClient
-          postId={id}
-          initialVote={currentVote?.type}
-          initialVoteAmount={votesAmount}
-        />
+        <div className="flex sm:flex-col gap-4 sm:gap-0 pr-6 sm:w-20 pb-4 sm:pb-0">
+          <VoteButtons
+            id={id}
+            initialVote={currentVote?.type}
+            initialVoteAmount={votesAmount}
+            type="POST"
+          />
+        </div>
         <div className="w-0 flex-1">
           <div className="max-h-40 mt-1 text-xs text-gray-500">
             {subredditName ? (
@@ -70,7 +73,7 @@ export const Post = ({ post, currentVote, votesAmount }: PostProps) => {
       <div className="bg-gray-50 z-20 text-sm px-4 py-4 sm:px-6">
         <a
           className="w-fit flex items-center gap-2"
-          href={`/r/${subredditName}/${id}`}
+          href={`/r/${subredditName}/post/${id}`}
         >
           <MessageSquare className="w-4 h-4" /> {comments.length} comments
         </a>

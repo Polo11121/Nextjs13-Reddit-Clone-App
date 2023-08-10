@@ -93,15 +93,17 @@ const SubredditLayout = async ({
                   isSubscribed={Boolean(subscription)}
                 />
               )}
-              <Link
-                className={buttonVariants({
-                  variant: "outline",
-                  className: "w-full mb-6",
-                })}
-                href={`r/${slug}/submit`}
-              >
-                Create Post
-              </Link>
+              {Boolean(subscription) && (
+                <Link
+                  className={buttonVariants({
+                    variant: "outline",
+                    className: "w-full mb-6",
+                  })}
+                  href={`r/${slug}/submit`}
+                >
+                  Create Post
+                </Link>
+              )}
             </dl>
           </div>
         </div>

@@ -9,8 +9,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { UserAvatar } from "@/components/ui/UserAvatar";
-import Link from "next/link";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 interface UserAccountNavProps {
   user: Pick<User, "name" | "image" | "email">;
@@ -54,7 +54,7 @@ export const UserAccountNav = ({ user }: UserAccountNavProps) => {
           <Link href="/r/create">Create community</Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="/settings">Setting</Link>
+          <Link href="/settings">Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={logoutHandler} className="cursor-pointer">

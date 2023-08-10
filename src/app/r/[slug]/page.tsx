@@ -32,6 +32,16 @@ const SubredditPage = async ({ params: { slug } }: SubredditPageProps) => {
       },
     },
   });
+  const subscription =
+    session?.user &&
+    (await db.subscription.findFirst({
+      where: {
+        subreddit: {
+          name: slug,
+        },
+        user: session?.user,
+      },
+    }));
 
   if (!subreddit) {
     return notFound();
@@ -42,7 +52,7 @@ const SubredditPage = async ({ params: { slug } }: SubredditPageProps) => {
       <h1 className="font-bold text-3xl md:text-4xl h-14">
         r/{subreddit.name}
       </h1>
-      <MiniCreatePost session={session} />
+      {Boolean(subscription) && <MiniCreatePost session={session} />}
       <PostFeed initialPosts={subreddit.posts} subredditName={slug} />
     </>
   );
